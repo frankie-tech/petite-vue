@@ -29,7 +29,7 @@ const modifierGuards: Record<
     systemModifiers.some((m) => (e as any)[`${m}Key`] && !modifiers[m])
 }
 
-export const on: Directive = ({ el, get, exp, arg, modifiers }) => {
+export const on: Directive = ({ el, arg, exp, modifiers, get, ctx }) => {
   if (!arg) {
     if (import.meta.env.DEV) {
       console.error(`v-on="obj" syntax is not supported in petite-vue.`)
@@ -41,7 +41,7 @@ export const on: Directive = ({ el, get, exp, arg, modifiers }) => {
     ? get(`(e => ${exp}(e))`)
     : get(`($event => { ${exp} })`)
 
-  if (!exp && !modifiers?.prevent) handler = get(arg);
+  if (!exp && !modifiers?.prevent && ctx.scope[arg]) handler = get(`function ${get(arg)}`);
   // special lifecycle events
   if (arg === 'mounted') {
     nextTick(handler)
