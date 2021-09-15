@@ -1,7 +1,11 @@
 <script type="module">
   import { createApp } from '../src'
 
-  createApp().mount('#app')
+  createApp({
+    click() {
+      alert('clicked');
+    }
+  }).mount('#app')
 </script>
 
 <div id="app">
@@ -16,4 +20,5 @@
   <button @click.right="alert('clicked')">right click</button>
   <button @click.middle="alert('clicked')">middle click</button>
   <button @click.once="alert('clicked')">click once</button>
+  <button @click>unnamed click</button>
 </div>
