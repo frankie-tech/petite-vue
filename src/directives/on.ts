@@ -41,6 +41,7 @@ export const on: Directive = ({ el, get, exp, arg, modifiers }) => {
     ? get(`(e => ${exp}(e))`)
     : get(`($event => { ${exp} })`)
 
+  if (!exp && !modifiers?.prevent) handler = get(arg);
   // special lifecycle events
   if (arg === 'mounted') {
     nextTick(handler)
